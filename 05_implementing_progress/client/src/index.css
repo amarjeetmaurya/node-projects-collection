@@ -1,0 +1,49 @@
+/* styles.css */
+
+/* Reset some defaults */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9fafb;
+  color: #333;
+  padding: 2rem;
+}
+
+/* Button styling */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #2563eb; /* blue */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #1e40af; /* darker blue */
+}
+
+.btn:active {
+  background-color: #1d4ed8;
+}
+
+.btn:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Hide the file input */
+.hidden {
+  display: none;
+}
+
+/* Selected file text */
+p {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: #374151;
+}
