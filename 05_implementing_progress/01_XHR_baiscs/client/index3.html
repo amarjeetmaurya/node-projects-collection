@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Custom ProgressEvent Demo</title>
+  </head>
+  <body>
+    <h2>ResponseType Demo</h2>
+    <pre id="textOutput"></pre>
+    <pre id="docOutput"></pre>
+    <script>
+      const progressBar = document.getElementById("p");
+      const xhr = new XMLHttpRequest();
+
+      //   ======================================================
+      //  You can set "", "text", "json", "document", "blob", or "arraybuffer"
+      //   xhr.responseType = "json"; // setting it json
+
+      //   xhr.open("GET", "http://localhost:3000/");
+
+      //   xhr.onreadystatechange = () => {
+      //     // Ready State 4 | DONE! The operation is complete.
+      //     if (xhr.readyState === 4) {
+      //       // console.log("Response:", xhr.responseText); // it is not remaning text now!
+      //       console.log(xhr.responseType);
+      //       console.log(xhr.responseType === "json");
+      //     }
+      //   };
+      //   xhr.send();
+      //   ===========================================================
+
+      const url = "somePage.html";
+      xhr.responseType = "document";
+
+      // Case 1: Default (text)
+      function loadAsText(url) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+        xhr.responseType = "text"; // raw string
+        xhr.onload = () => {
+          document.getElementById("textOutput").textContent =
+            "TEXT response:\n\n" + xhr.response;
+        };
+        xhr.send();
+      }
+
+      // Case 2: Document
+      function loadAsDocument(url) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+        xhr.responseType = "document"; // parsed DOM
+        xhr.onload = () => {
+          const doc = xhr.response; // Document object
+          const title = doc.querySelector("title")?.textContent;
+          const headings = [...doc.querySelectorAll("h1,h2,h3")].map(
+            (h) => h.textContent,
+          );
+          document.getElementById("docOutput").textContent =
+            "DOCUMENT response:\n\nTitle: " +
+            title +
+            "\nHeadings: " +
+            headings.join(", ");
+        };
+        xhr.send();
+      }
+
+      loadAsText(url);
+      loadAsDocument(url);
+    </script>
+  </body>
+</html>

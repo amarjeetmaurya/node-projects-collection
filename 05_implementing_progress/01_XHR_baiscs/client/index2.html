@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Custom ProgressEvent Demo</title>
+  </head>
+  <body>
+    <p>Helo</p>
+    <script>
+      const progressBar = document.getElementById("p");
+      const xhr = new XMLHttpRequest();
+
+      // Ready State 0 | Client has been created. open() not called yet. |
+      console.log("readyState:", xhr.readyState);
+
+      xhr.open("GET", "http://localhost:3000/");
+
+      // Ready State 1 | open() has been called. |
+      console.log("readyState:", xhr.readyState);
+
+
+      xhr.onreadystatechange = () => {
+        console.log("readyState:", xhr.readyState);
+
+        // Ready State 2 | HEADERS_RECEIVED send() has been called,
+        // and headers and status are available. | Server Header response |
+        if (xhr.readyState === 2) {
+          console.log(xhr.getAllResponseHeaders());
+        }
+
+        // Ready State 3 | It will only print when ready state becomes 3
+        console.log("-> ", xhr.responseText)
+        
+
+        // Ready State 4 | DONE! The operation is complete.
+        if (xhr.readyState === 4) {
+          // console.log(xhr);
+          console.log("Status:", xhr.status); // e.g. 200, 404, 500
+          console.log("Response:", xhr.responseText);
+          console.log(xhr.responseType);
+        }
+      };
+
+      xhr.send();
+
+    </script>
+  </body>
+</html>

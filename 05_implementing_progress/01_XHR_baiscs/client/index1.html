@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>XHR Progress Demo</title>
+</head>
+<body>
+  <progress id="p" value="0"></progress>
+  <script>
+    const progressBar = document.getElementById("p");
+    const client = new XMLHttpRequest();
+
+    // Use a real file URL (here a sample image from Wikimedia)
+    client.open("GET", "https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg");
+
+    // Important: we want binary data, so set responseType
+    client.responseType = "blob";
+
+    client.onprogress = (pe) => {
+      if (pe.lengthComputable) {
+        progressBar.max = pe.total;
+        progressBar.value = pe.loaded;
+      }
+    };
+
+    client.onloadend = (pe) => {
+      progressBar.value = pe.loaded;
+      // Once loaded, show the image
+      const img = document.createElement("img");
+      img.src = URL.createObjectURL(client.response);
+      img.style.maxWidth = "100%";
+      document.body.appendChild(img);
+    };
+
+    client.send();
+  </script>
+</body>
+</html>

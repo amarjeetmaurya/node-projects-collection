@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ResponseType Demo</title>
+</head>
+<body>
+  <h2>ResponseType Demo</h2>
+  <pre id="textOutput"></pre>
+  <pre id="docOutput"></pre>
+
+  <script>
+    const url = "somePage.html"; // any local HTML file
+
+    // Case 1: Default (text)
+    function loadAsText(url) {
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+      xhr.responseType = "text"; // raw string
+      xhr.onload = () => {
+        document.getElementById("textOutput").textContent =
+          "TEXT response:\n\n" + xhr.response;
+      };
+      xhr.send();
+    }
+
+    // Case 2: Document
+    function loadAsDocument(url) {
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+      xhr.responseType = "document"; // parsed DOM
+      xhr.onload = () => {
+        const doc = xhr.response; // Document object
+        const title = doc.querySelector("title")?.textContent;
+        const headings = [...doc.querySelectorAll("h1,h2,h3")].map(h => h.textContent);
+        document.getElementById("docOutput").textContent =
+          "DOCUMENT response:\n\nTitle: " + title +
+          "\nHeadings: " + headings.join(", ");
+      };
+      xhr.send();
+    }
+
+    loadAsText(url);
+    loadAsDocument(url);
+  </script>
+</body>
+</html>
