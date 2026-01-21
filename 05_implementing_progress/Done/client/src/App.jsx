@@ -13,25 +13,25 @@ function App() {
 
 
   //======================== Helper to fetch directory items ========================//
-  function getDirectoryItems() {
-    // Fetch updated list from server after all uploads
-    fetch(`http://localhost:3000/directory/${dirId || ""}`, {
-      method: "GET",
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Fetched directory items:", data);
-        setFilesList(data);
-      })
-      .catch((err) => console.error("Error fetching directory items:", err));
-    // For demo, we'll just log
-    console.log("Fetching updated directory items from server...");
-  }
+  // function getDirectoryItems() {
+  //   // Fetch updated list from server after all uploads
+  //   fetch(`http://localhost:3000/directory/${dirId || ""}`, {
+  //     method: "GET",
+  //     credentials: "include",
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       // console.log("Fetched directory items:", data);
+  //       setFilesList(data);
+  //     })
+  //     .catch((err) => console.error("Error fetching directory items:", err));
+  //   // For demo, we'll just log
+  //   // console.log("Fetching updated directory items from server...");
+  // }
 
   useEffect(() => {
     // Initial fetch of directory items
-    getDirectoryItems();
+    // getDirectoryItems();
   }, []);
 
   const handleUploadClick = () => {
@@ -44,6 +44,7 @@ function App() {
    * Select multiple files
    */
   function handleFileSelect(e) {
+    console.log(e.target.files);
     const selectedFiles = Array.from(e.target.files);
     if (selectedFiles.length === 0) return;
     console.log(selectedFiles);
@@ -91,13 +92,14 @@ function App() {
   /**
    * Upload items in queue one by one
    */
+
   function processUploadQueue(queue) {
     if (queue.length === 0) {
       // No more items to upload
       setIsUploading(false);
       setUploadQueue([]);
       setTimeout(() => {
-        getDirectoryItems();
+        // getDirectoryItems();
       }, 1000);
       return;
     }
@@ -136,33 +138,35 @@ function App() {
     xhr.send(currentItem.file);
   }
 
+
     /**
    * Cancel an in-progress upload
    */
-  function handleCancelUpload(tempId) {
-    const xhr = uploadXhrMap[tempId];
-    if (xhr) {
-      xhr.abort();
-    }
-    // Remove it from queue if still there
-    setUploadQueue((prev) => prev.filter((item) => item.id !== tempId));
+  // function handleCancelUpload(tempId) {
+  //   const xhr = uploadXhrMap[tempId];
+  //   if (xhr) {
+  //     xhr.abort();
+  //   }
+  //   // Remove it from queue if still there
+  //   setUploadQueue((prev) => prev.filter((item) => item.id !== tempId));
 
-    // Remove from filesList
-    setFilesList((prev) => prev.filter((f) => f.id !== tempId));
+  //   // Remove from filesList
+  //   setFilesList((prev) => prev.filter((f) => f.id !== tempId));
 
-    // Remove from progressMap
-    setProgress((prev) => {
-      const { [tempId]: _, ...rest } = prev;
-      return rest;
-    });
+  //   // Remove from progressMap
+  //   setProgress((prev) => {
+  //     const { [tempId]: _, ...rest } = prev;
+  //     return rest;
+  //   });
 
-    // Remove from Xhr map
-    setUploadXhrMap((prev) => {
-      const copy = { ...prev };
-      delete copy[tempId];
-      return copy;
-    });
-  }
+  //   // Remove from Xhr map
+  //   setUploadXhrMap((prev) => {
+  //     const copy = { ...prev };
+  //     delete copy[tempId];
+  //     return copy;
+  //   });
+  // }
+  
 
   return (
     <>
@@ -195,8 +199,8 @@ function App() {
           <div className="border rounded p-2" >
             <h3>Ongoing Uploads:</h3>
             <ul className="list-disc list-inside">
-             { console.log(uploadXhrMap)}
-              {uploadQueue.map((item) => (
+             {/* { console.log(uploadXhrMap)} */}
+              {/* {uploadQueue.map((item) => (
                 <li key={item.id} className="mb-2">
                   <span>{item.name} - </span>
                   <span>
@@ -211,18 +215,18 @@ function App() {
                     Cancel
                   </button>
                 </li>
-              ))}
-             {console.log(uploadQueue)}
+              ))} */}
+             {/* {console.log(uploadQueue)} */}
             </ul>
           </div>
-          <div>
+          {/* <div>
             <h3>Progress State:</h3>
             uploadQueue.length: {uploadQueue.length}
             <br />
             isUploading: {isUploading ? "true" : "false"}
             <br />
             <pre>{JSON.stringify(progress, null, 2)}</pre>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

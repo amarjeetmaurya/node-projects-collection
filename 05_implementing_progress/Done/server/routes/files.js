@@ -20,7 +20,7 @@ function writeMetadata(data) {
 
 // Upload route
 export const uploadFile = async (req, res, next) => {
-  console.log("hy");
+  // console.log("hy");
   console.log(req.body);
   console.log(req.params);
   const parentDirId = req.params.parentDirId || req.user.rootDirId;
@@ -60,7 +60,7 @@ export const uploadFile = async (req, res, next) => {
     if (!fs.existsSync(storageDir)) fs.mkdirSync(storageDir);
 
     const writeStream = createWriteStream(path.join(storageDir, fullFileName));
-    req.pipe(writeStream);
+    // req.pipe(writeStream);
 
     req.on("end", () => {
       return res.status(201).json({ message: "File Uploaded", id: fileId });
