@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RPC Basic</title>
+  </head>
+  <body>
+    <p>Basic Rpc</p>
+  </body>
+  <script>
+    async function rpcCall(method, params) {
+      const response = await fetch("http://localhost:4000", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ method, params }),
+      });
+
+      const data = await response.json();
+      return data.result;
+    }
+
+    // 🧪 Using RPC
+    (async () => {
+      const sum = await rpcCall("add", [2, 3]);
+      console.log("Sum:", sum);
+
+      const product = await rpcCall("multiply", [4, 5]);
+      console.log("Product:", product);
+    })();
+  </script>
+</html>
