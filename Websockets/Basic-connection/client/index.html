@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web sockets</title>
+  </head>
+  <body>
+    <p>Web -Sockets</p>
+    <script>
+      const data = "Hello World!";
+      const wssWebSocket = new WebSocket("ws://localhost:8080");
+
+      // Wait until the connection is open before sending
+      wssWebSocket.onopen = () => {
+        console.log("Connection opened");
+        wssWebSocket.send(data);
+      };
+
+      // Listen for messages from the server
+      wssWebSocket.onmessage = (event) => {
+        console.log("Message from server:", event.data);
+      };
+
+      // Handle errors
+      wssWebSocket.onerror = (error) => {
+        console.error("WebSocket error:", error);
+      };
+
+      // Handle connection close
+      wssWebSocket.onclose = () => {
+        console.log("Connection closed");
+      };
+    </script>
+  </body>
+</html>
