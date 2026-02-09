@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebSocket Chat</title>
+
+    <style>
+      body {
+        font-family: Arial;
+        background: #eee;
+        padding: 20px;
+      }
+      #chat {
+        height: 300px;
+        background: white;
+        overflow: auto;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+      input {
+        width: 80%;
+        padding: 10px;
+      }
+      button {
+        padding: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h3>WebSocket Chat</h3>
+
+    <div id="chat"></div>
+
+    <input id="input" placeholder="Type..." />
+    <button onclick="send()">Send</button>
+
+    <script>
+      const chat = document.getElementById("chat");
+      const input = document.getElementById("input");
+
+      // Persistent ID
+      let id = localStorage.getItem("clientId");
+      if (!id) {
+        id = crypto.randomUUID().slice(0, 6);
+        localStorage.setItem("clientId", id);
+      }
+
+      // Connect
+      const socket = new WebSocket("ws://localhost:8080");
+
+      socket.onopen = () => {
+        socket.send(JSON.stringify({ type: "join", id }));
+      };
+
+      socket.onmessage = (e) => add(e.data);
+
+      function send() {
+        if (!input.value) return;
+
+        socket.send(
+          JSON.stringify({
+            type: "chat",
+            message: input.value,
+          }),
+        );
+
+        input.value = "";
+      }
+
+      function add(msg) {
+        chat.innerHTML += `<p>${msg}</p>`;
+        chat.scrollTop = chat.scrollHeight;
+      }
+    </script>
+  </body>
+</html>
