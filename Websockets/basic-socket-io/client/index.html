@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Visitor Counter</title>
+</head>
+<body>
+
+<h1>Online Users</h1>
+
+<h2 id="count">0</h2>
+
+<script src="/socket.io/socket.io.js" defer></script>
+
+<script>
+
+const socket = io();
+
+socket.on('count-update', (count) => {
+
+    document.getElementById('count').textContent = count;
+
+});
+
+</script>
+
+</body>
+</html>
